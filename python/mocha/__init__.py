@@ -140,11 +140,17 @@ def demo() -> None:
         "Terraform Prod Deployment",
     ]
 
+    demo_running = True
+
     def run_task(task) -> None:
-        while True:
+        while demo_running:
             with Profiler(task):
                 time.sleep(random.random())
 
-    with ThreadPoolExecutor(max_workers=len(tasks)) as executor:
-        for task in tasks:
-            executor.submit(run_task, task=task)
+    try:
+        with ThreadPoolExecutor(max_workers=len(tasks)) as executor:
+            for task in tasks:
+                executor.submit(run_task, task=task)
+    except:
+        # Catch keyboard interrupt (or any other exception), then stop demo
+        demo_running = False
