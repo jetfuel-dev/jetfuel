@@ -40,7 +40,7 @@ pip install mocha-time
 ```python
 import mocha
 
-mocha.init(url="localhost:9000")
+mocha.init(url="http://localhost:9000")
 
 p = mocha.start("ML Training")
 
@@ -55,7 +55,7 @@ p.stop()
 ```python
 import mocha
 
-mocha.init(url="localhost:9000")
+mocha.init(url="http://localhost:9000")
 
 with mocha.Profiler("ML Training"):
 
@@ -68,7 +68,7 @@ with mocha.Profiler("ML Training"):
 ```python
 import mocha
 
-mocha.init(url="localhost:9000")
+mocha.init(url="http://localhost:9000")
 
 @mocha.profiler("ML Training")
 def ml_training():

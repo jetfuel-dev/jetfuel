@@ -1,2 +1,4 @@
 SQL_MODE = "sqlite"
 SQL_VERSION = 0
+
+DEFAULT_USER = True
