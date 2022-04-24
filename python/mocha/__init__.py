@@ -119,3 +119,29 @@ def profiler(name: str) -> Callable[..., Callable[..., Any]]:
                 return f(*args, **kwargs)
         return wrapped
     return wrapper
+
+
+def demo() -> None:
+    """
+    Run demo. Mocha must be initialized first.
+    """
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Lock
+    import random
+
+    tasks = [
+        "Workspace Creation (New Customer)",
+        "Dataset Join - 259 GB",
+        "ETL Snowflake -> Amazon Glacier",
+        "CI/CD full build",
+        "Terraform Prod Deployment",
+    ]
+
+    def run_task(task) -> None:
+        while True:
+            with Profiler(task):
+                time.sleep(random.random())
+
+    with ThreadPoolExecutor(max_workers=len(tasks)) as executor:
+        for task in tasks:
+            executor.submit(run_task, task=task)
