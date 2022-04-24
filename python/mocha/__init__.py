@@ -29,17 +29,20 @@ def _event(name: str, seconds: float) -> None:
         name: Task name
         seconds: Seconds elapsed for task
     """
-    requests.post(
-        _url,
-        json={
-            "timestamp": time.time(),
-            "name": name,
-            "seconds": seconds,
-        },
-        headers={
-            "Authorization": f"Bearer {_token}"
-        }
-    )
+    try:
+        requests.post(
+            _url,
+            json={
+                "timestamp": time.time(),
+                "name": name,
+                "seconds": seconds,
+            },
+            headers={
+                "Authorization": f"Bearer {_token}"
+            }
+        )
+    except:
+        pass
 
 
 class Profiler:

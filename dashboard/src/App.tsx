@@ -1,13 +1,30 @@
 import Home from './pages/Home';
-import logo from './logo.svg';
-import './App.css';
+import { makeStyles, createStyles } from "@mui/styles";
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    "root": {
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "#1f1f1f",
+      position: "absolute",
+      top: "0",
+      left: "0",
+    }
+  })
+);
 
 function App() {
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <Home/>
-      </header>
+    <div className={classes.root}>
+      <Home/>
     </div>
   );
 }
