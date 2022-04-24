@@ -1,7 +1,7 @@
 import { makeStyles, createStyles } from "@mui/styles";
 import { Typography } from '@mui/material';
+import NavButton from "../components/NavButton";
 import logo from '../assets/mocha.svg';
-import { fontWeight } from "@mui/system";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -30,9 +30,11 @@ const useStyles = makeStyles(() =>
     },
     "navbar": {
       width: "100%",
-      height: "50px",
-      marginTop: "20px",
+      marginTop: "40px",
       borderBottom: "solid 1px white",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
     }
   })
 );
@@ -48,7 +50,9 @@ function Home() {
           Python Performance Profiling for Production
         </Typography>
         <div className={classes.navbar}>
-
+          <NavButton>Dashboard</NavButton>
+          <NavButton>Getting Started</NavButton>
+          <NavButton>Settings</NavButton>
         </div>
       </div>
     </div>
