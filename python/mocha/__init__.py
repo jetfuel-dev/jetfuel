@@ -5,10 +5,10 @@ import time
 
 
 _url: str = ""
-_token: str = "default"
+_token: str = ""
 
 
-def init(url: str, token: Optional[str] = None) -> None:
+def init(url: str, token: str = "default") -> None:
     """
     Initialize Mocha.
 
