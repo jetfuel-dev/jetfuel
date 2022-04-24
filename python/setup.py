@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="mocha-time",
-    version="0.0.5",
+    version="0.0.7",
     author="Jared Zhao",
     description="Python Performance Profiling for Production",
     long_description=open("../README.md").read(),
@@ -10,5 +10,8 @@ setuptools.setup(
     url="https://github.com/mocha-dev/mocha",
     license="Apache 2.0",
     python_requires=">=3.6",
+    install_requires=[
+        "requests >= 2.0.0",
+    ],
     packages=["mocha"],
 )
