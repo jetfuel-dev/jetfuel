@@ -1,5 +1,5 @@
 from typing import Optional
-from logic import database
+from logic import queries
 import config
 import uuid
 
@@ -9,7 +9,7 @@ def create_user(email: str) -> uuid.UUID:
     Create user.
     """
     user_id = uuid.uuid4()
-    database.create_user(email=email, user_id=user_id)
+    queries.create_user(email=email, user_id=user_id)
 
     return user_id
 
@@ -26,7 +26,7 @@ def generate_api_token(user_id: uuid.UUID, api_token: Optional[str] = None) -> N
         # TODO: Add way to generate new api_token
         raise NotImplementedError()
 
-    database.update_api_token(user_id, api_token)
+    queries.update_api_token(user_id, api_token)
 
 
 def verify_api_token(api_token: str) -> Optional[uuid.UUID]:
@@ -36,4 +36,26 @@ def verify_api_token(api_token: str) -> Optional[uuid.UUID]:
     Returns:
         user_id
     """
-    return database.verify_api_token(api_token)
+    return queries.verify_api_token(api_token)
+
+
+def verify_user_token(user_token: str) -> Optional[uuid.UUID]:
+    """
+    Verify user token (Auth0 or "default").
+
+    Args:
+        user_token: User's token
+
+    Returns:
+        user_id
+    """
+    email: Optional[str] = None
+
+    if config.DEFAULT_USER and user_token == "default":
+        email = user_token
+
+    # TODO: Add Auth0 email verification
+
+    assert email is not None
+
+    return queries.get_user_id(email)

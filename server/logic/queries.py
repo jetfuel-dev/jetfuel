@@ -3,7 +3,7 @@ All queries that are made to external databases are defined here.
 This allows us to add new database backends in the future in desired.
 """
 import config
-from typing import Optional
+from typing import Optional, Tuple, List
 from commons.database import sqlite
 import uuid
 
@@ -28,6 +28,29 @@ def create_user(email: str, user_id: uuid.UUID) -> None:
             """,
             (str(user_id), email)
         )
+
+
+def get_user_id(email: str) -> Optional[uuid.UUID]:
+    """
+    Retrieve a user.
+
+    Args:
+        email: Unique user email
+    """
+    if config.SQL_MODE == "sqlite":
+        try:
+            (user_id_str,) = sqlite.retrieve_one(
+                """
+                    SELECT user_id
+                    FROM users
+                    WHERE email=?;
+                """,
+                (email,)
+            )
+
+            return uuid.UUID(user_id_str)
+        except:
+            return None
 
 
 def update_api_token(user_id: uuid.UUID, api_token: str) -> None:
@@ -98,3 +121,36 @@ def insert_event(
             """,
             (user_id, timestamp, name, period_min, period_max, period_mean, period_count)
         )
+
+
+def retrieve_data(
+    user_id: uuid.UUID, start: float, end: Optional[float]
+) -> List[Tuple[float, str, float, float, float, int]]:
+    """
+    Retrieve data for a given user between a given period.
+
+    Args:
+        user_id: Which user
+        start: Start time
+        end: End time
+
+    Return:
+        List:
+            timestamp
+            name
+            period_min
+            period_max
+            period_mean
+            period_count
+    """
+    if config.SQL_MODE == "sqlite":
+        result: List[Tuple[float, str, float, float, float, int]] = sqlite.retrieve_all(
+            """
+                SELECT timestamp, name, period_min, period_max, period_mean, period_count
+                FROM events
+                WHERE user_id=? AND timestamp>=? AND timestamp<=?;
+            """,
+            (user_id, start, end)
+        )
+
+        return result

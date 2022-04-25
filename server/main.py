@@ -2,8 +2,8 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import HTTPBasicCredentials, HTTPBearer
 from pydantic import BaseModel
 from commons.logging import exception_handler, logger
-from logic import auth, database
-from typing import List
+from logic import auth, data
+from typing import List, Dict, Optional
 import config
 
 
@@ -30,6 +30,9 @@ class EventBody(BaseModel):
     periods: List[TaskPeriod]
 
 
+class DataResponse(BaseModel):
+    data: Dict[str, data.Data]
+
 
 @app.post("/")
 @exception_handler()
@@ -50,7 +53,7 @@ def post_event(event: EventBody, credentials: HTTPBasicCredentials = Depends(sec
         )
 
     for period in event.periods:
-        database.insert_event(
+        data.insert_event(
             user_id,
             event.timestamp,
             period.name,
@@ -61,6 +64,36 @@ def post_event(event: EventBody, credentials: HTTPBasicCredentials = Depends(sec
         )
 
     return "OK"
+
+
+@app.get("/data", response_class=DataResponse)
+@exception_handler()
+def get_data(
+    start: float,
+    end: Optional[float],
+    credentials: HTTPBasicCredentials = Depends(security),
+) -> DataResponse:
+    """
+    Retrieve data for web client to display as graphs.
+
+    If user contained in token doesn't exist, we will automatically create a new one.
+
+    Args:
+        start: Start UNIX time
+        end: Optional end UNIX time
+        credentials: Bearer with Auth0 Token or "default"
+    """
+    user_token = credentials.credentials
+    user_id = auth.verify_user_token(user_token)
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized",
+        )
+
+    data_ = data.retrieve_data(user_id, start, end)
+
+    return DataResponse(data=data_)
 
 
 @app.on_event("startup")
