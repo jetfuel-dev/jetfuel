@@ -1,156 +1,18 @@
-from typing import Optional, Callable, Any
-from functools import wraps
-import requests
-import time
+"""
+ Calculate stats (min, max, mean, count), then fire event to Mocha-Server
+                                    ^
+                                    |
+           Event Cache (stores raw performance profiling events)
+                                    ^
+                                    |
+                              Profiler Class
+                                    ^
+                                    |
+        Syntactic Sugar (context manager, function decorator, etc.)
+"""
 
-
-_url: str = ""
-_token: str = ""
-
-
-def init(url: str, token: str = "default") -> None:
-    """
-    Initialize Mocha.
-
-    Args:
-        url: URL of mocha-server
-        token: Login token
-    """
-    global _url, _token
-    _url = url
-    _token = token
-
-
-def _event(name: str, seconds: float) -> None:
-    """
-    Fire a timing event to mocha-server.
-
-    Args:
-        name: Task name
-        seconds: Seconds elapsed for task
-    """
-    try:
-        requests.post(
-            _url,
-            json={
-                "timestamp": time.time(),
-                "name": name,
-                "seconds": seconds,
-            },
-            headers={
-                "Authorization": f"Bearer {_token}"
-            }
-        )
-    except:
-        pass
-
-
-class Profiler:
-    """
-    Base Profiler that is used by all other convenience functions.
-    """
-
-    def __init__(self, name: str) -> None:
-        """
-        Initialize Profiler.
-
-        Args:
-            name: Name of task being profiled.
-        """
-        self.name = name
-    
-
-    def start(self) -> None:
-        """
-        Start profiler.
-        """
-        self.start_time = time.perf_counter()
-
-
-    def stop(self) -> None:
-        """
-        Stop profiler.
-        """
-        elapsed_time = time.perf_counter() - self.start_time
-        _event(self.name, elapsed_time)
-
-
-    def __enter__(self):
-        """
-        Start profiler as a context manager.
-        """
-        self.start()
-
-
-    def __exit__(self, type, value, traceback):
-        """
-        Stop profiler context manager.
-        """
-        self.stop()
-
-
-def start(name: str) -> Profiler:
-    """
-    Start a profiler.
-
-    Args:
-        name: Task name
-
-    Returns:
-        Profiler
-    """
-    profiler = Profiler(name=name)
-    profiler.start()
-
-    return profiler
-
-
-def profiler(name: str) -> Callable[..., Callable[..., Any]]:
-    """
-    Profiler decorator.
-
-    Args:
-        name: Task name
-
-    Returns:
-        Function wrapper
-    """
-    def wrapper(f: Callable[..., Any]) -> Callable[..., Any]:
-        @wraps(f)
-        def wrapped(*args: Any, **kwargs: Any) -> Any:
-            with Profiler(name=name):
-                return f(*args, **kwargs)
-        return wrapped
-    return wrapper
-
-
-def demo() -> None:
-    """
-    Run demo. Mocha must be initialized first.
-    """
-    from concurrent.futures import ThreadPoolExecutor
-    from threading import Lock
-    import random
-
-    tasks = [
-        "Workspace Creation (New Customer)",
-        "Dataset Join - 259 GB",
-        "ETL Snowflake -> Amazon Glacier",
-        "CI/CD full build",
-        "Terraform Prod Deployment",
-    ]
-
-    demo_running = True
-
-    def run_task(task) -> None:
-        while demo_running:
-            with Profiler(task):
-                time.sleep(random.random())
-
-    try:
-        with ThreadPoolExecutor(max_workers=len(tasks)) as executor:
-            for task in tasks:
-                executor.submit(run_task, task=task)
-    except:
-        # Catch keyboard interrupt (or any other exception), then stop demo
-        demo_running = False
+from .state import init as init
+from .profiler import Profiler as Profiler
+from .profiler import profiler as profiler
+from .profiler import start as start
+from .demo import demo as demo
