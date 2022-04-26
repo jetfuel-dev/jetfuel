@@ -4,8 +4,8 @@ import NavButton from './NavButton';
 const useStyles = makeStyles(() =>
   createStyles({
     "navbar": {
-      width: "100%",
-      marginTop: "40px",
+      width: "min(1300px, calc(100% - 100px))",
+      margin: "40px auto 0px auto",
       borderBottom: "solid 1px white",
       display: "flex",
       flexDirection: "row",
@@ -27,7 +27,7 @@ function NavBar(props: Props) {
     <div className={classes.navbar}>
       {props.options.map((option: string) => {
         return (
-          <div onClick={() => {props.setSelected(option)}}>
+          <div key={option} onClick={() => {props.setSelected(option)}}>
             <NavButton selected={props.selected === option}>{option}</NavButton>
           </div>
         );

@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { makeStyles, createStyles } from "@mui/styles";
 import { Typography } from '@mui/material';
 import NavBar from "../components/NavBar";
+import Dashboard from "../components/Dashboard";
 import logo from '../assets/mocha.svg';
+
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -20,21 +22,26 @@ const useStyles = makeStyles(() =>
       margin: "70px auto 0px auto",
     },
     "main": {
-      width: "1000px",
       height: "100%",
+      width: "100%",
       margin: "0px auto",
     },
     "header": {
       fontWeight: "bold",
       color: "white",
     },
+    "body": {
+      height: "calc(100vh - 250px)",
+      overflowY: "scroll",
+      padding: "0px calc(50vw - 700px)",
+    }
   })
 );
 
 function Home() {
   const classes = useStyles();
 
-  const options = ["Dashboard", "Getting Started", "Settings"];
+  const options = ["Dashboard"];
   const [selected, setSelected] = useState(options[0]);
 
   return (
@@ -51,6 +58,9 @@ function Home() {
             setSelected(option);
           }}
         />
+        <div className={classes.body}>
+          <Dashboard/>
+        </div>
       </div>
     </div>
   );

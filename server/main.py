@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import HTTPBasicCredentials, HTTPBearer
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from commons.logging import exception_handler, logger
 from logic import auth, data
@@ -8,6 +9,13 @@ import config
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
 
 
 # Bearer token for client events
@@ -66,11 +74,11 @@ def post_event(event: EventBody, credentials: HTTPBasicCredentials = Depends(sec
     return "OK"
 
 
-@app.get("/data", response_class=DataResponse)
+@app.get("/data")
 @exception_handler()
 def get_data(
     start: float,
-    end: Optional[float],
+    end: Optional[float] = None,
     credentials: HTTPBasicCredentials = Depends(security),
 ) -> DataResponse:
     """

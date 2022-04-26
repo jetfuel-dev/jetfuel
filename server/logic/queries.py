@@ -144,13 +144,26 @@ def retrieve_data(
             period_count
     """
     if config.SQL_MODE == "sqlite":
-        result: List[Tuple[float, str, float, float, float, int]] = sqlite.retrieve_all(
-            """
-                SELECT timestamp, name, period_min, period_max, period_mean, period_count
-                FROM events
-                WHERE user_id=? AND timestamp>=? AND timestamp<=?;
-            """,
-            (user_id, start, end)
-        )
+        result: List[Tuple[float, str, float, float, float, int]] = []
+
+        if end is None:
+            result = sqlite.retrieve_all(
+                """
+                    SELECT timestamp, name, period_min, period_max, period_mean, period_count
+                    FROM events
+                    WHERE user_id=? AND timestamp>=?;
+                """,
+                (str(user_id), start)
+            )
+        else:
+            result = sqlite.retrieve_all(
+                """
+                    SELECT timestamp, name, period_min, period_max, period_mean, period_count
+                    FROM events
+                    WHERE user_id=? AND timestamp>=? AND timestamp<=?;
+                """,
+                (str(user_id), start, end)
+            )
+
 
         return result
