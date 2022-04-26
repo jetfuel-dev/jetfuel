@@ -60,18 +60,18 @@ mocha.demo()
 ## Usage
 
 ```python
-# Start / Stop
+# 1. Start / Stop
 p = mocha.start("Foobar")
 
 pass
 
 p.stop()
 
-# Profiler
+# 2. Profiler
 with mocha.Profiler("Foobar"):
     pass
 
-# Function Decorator
+# 3. Function Decorator
 @mocha.profiler("Foobar")
 def ml_training():
     pass
