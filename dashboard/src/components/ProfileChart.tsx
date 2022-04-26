@@ -85,7 +85,7 @@ function ProfileChart(props: Props) {
             },
             yAxis: {
               max: max,
-              min: Math.round(min),
+              min: min,
               splitNumber: 5,
               axisTick: {
                 show: true,
