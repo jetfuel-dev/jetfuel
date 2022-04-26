@@ -45,8 +45,6 @@ function ProfileChart(props: Props) {
     histogramValues.push(0);
   }
 
-  console.log(histogramBins)
-
   let totalValue = 0;
   for (var i = 0; i < props.data.mean.length; i++) {
     histogramValues[Math.floor((props.data.mean[i] - min) / binWidth)] += props.data.count[i];
@@ -80,24 +78,23 @@ function ProfileChart(props: Props) {
               type: 'category',
               data: props.data.x.map(timestamp => new Date(timestamp * 1000)),
               show: false,
+              boundaryGap: false,
               axisLine: {
                 show: true
               }
             },
             yAxis: {
-              max: Math.round(max),
+              max: max,
               min: Math.round(min),
               splitNumber: 5,
               axisTick: {
                 show: true,
               },
               axisLine: {
-                show: true
+                show: true,
               },
               splitLine: {
-                lineStyle: {
-                  color: "#555"
-                }
+                show: false,
               },
               axisLabel: {
                 formatter: '{value} s'
@@ -112,10 +109,14 @@ function ProfileChart(props: Props) {
                   opacity: 0
                 },
                 areaStyle: {
-                  color: '#003810',
+                  color: '#122280',
                   opacity: 1,
                 },
-                symbol: 'none'
+                symbol: 'none',
+                cursor: 'crosshair',
+                select: {
+                  disabled: true,
+                }
               },
               {
                 name: 'Average',
@@ -123,9 +124,13 @@ function ProfileChart(props: Props) {
                 data: props.data.mean,
                 showSymbol: false,
                 lineStyle: {
-                  color: "#00d639",
+                  color: "#99b8ff",
                   width: 1,
                 },
+                cursor: 'crosshair',
+                select: {
+                  disabled: true,
+                }
               },
               {
                 name: 'Min',
@@ -138,7 +143,11 @@ function ProfileChart(props: Props) {
                   color: '#1f1f1f',
                   opacity: 1,
                 },
-                symbol: 'none'
+                symbol: 'none',
+                cursor: 'crosshair',
+                select: {
+                  disabled: true,
+                }
               },
             ]
           }}
@@ -174,7 +183,7 @@ function ProfileChart(props: Props) {
                 type: 'bar',
                 data: histogramValues,
                 showSymbol: false,
-                color: "#007321",
+                color: "#1f40ff",
               },
             ]
           }}

@@ -87,7 +87,7 @@ def _commit() -> None:
                 # Commit to backend
                 if len(periods) > 0:
                     requests.post(
-                        _url,
+                        f"{_url}/v1/commit",
                         json={
                             "timestamp": time.time(),
                             "periods": periods,
@@ -101,7 +101,7 @@ def _commit() -> None:
                 for cache in _caches.values():
                     cache.flush()
             except:
-                print(f"Mocha failed to reach server at {_url}")
+                pass
             finally:
                 # Release locks
                 for profiler_name in profiler_names:

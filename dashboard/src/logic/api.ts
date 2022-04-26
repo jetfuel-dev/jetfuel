@@ -13,7 +13,7 @@ export interface DataContainer {
 
 
 export async function getDataAPI(start: number): Promise<DataContainer> {
-  const url = `${window.location.protocol}//localhost:9000/data?start=${start}`;
+  const url = `${window.location.protocol}//${window.location.host}/v1/data?start=${start}`;
   const response = await fetch(url, {
     method: "GET",
     headers: {

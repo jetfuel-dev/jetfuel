@@ -11,9 +11,9 @@ from coloredlogs import ColoredFormatter
 logger: logging.Logger = logging.getLogger(__name__)
 logger.setLevel("INFO")
 
-# if not os.path.exists("/var/log/mocha"):
-#     os.makedirs("/var/log/mocha")
-# log_file = os.path.join(os.path.abspath(os.sep), "/var/log/mocha/root.log")
+if not os.path.exists("/var/log/mocha"):
+    os.makedirs("/var/log/mocha")
+log_file = os.path.join(os.path.abspath(os.sep), "/var/log/mocha/root.log")
 
 level_colors = {
     "debug": {"color": "green"},
@@ -24,18 +24,18 @@ level_colors = {
 }
 
 formatter: logging.Formatter = ColoredFormatter(
-    fmt="%(asctime)s %(levelname)-8s %(message)s", level_styles=level_colors
+    fmt="%(levelname)s:     %(message)s", level_styles=level_colors
 )
 
-# file_handler: logging.Handler = logging.FileHandler(log_file)
-# file_handler.setFormatter(formatter)
-# file_handler.setLevel(logging.DEBUG)
+file_handler: logging.Handler = logging.FileHandler(log_file)
+file_handler.setFormatter(formatter)
+file_handler.setLevel(logging.DEBUG)
 
 stream_handler: logging.Handler = logging.StreamHandler(sys.__stdout__)
 stream_handler.setFormatter(formatter)
 stream_handler.setLevel(logging.DEBUG)
 
-# logger.addHandler(file_handler)
+logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
 

@@ -1,6 +1,6 @@
 {
-  "name": "dashboard",
-  "version": "0.1.0",
+  "name": "mocha-dashboard",
+  "version": "0.0.8",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
