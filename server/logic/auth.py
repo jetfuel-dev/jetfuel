@@ -1,18 +1,61 @@
+from typing import Optional
+from logic import queries
 import config
+import uuid
 
 
-def verify_api_token(token: str) -> bool:
+def create_user(email: str) -> uuid.UUID:
     """
-    Verify that API token is valid.
+    Create user.
+    """
+    user_id = uuid.uuid4()
+    queries.create_user(email=email, user_id=user_id)
+
+    return user_id
+
+
+def generate_api_token(user_id: uuid.UUID, api_token: Optional[str] = None) -> None:
+    """
+    Generate a api_token for a user.
 
     Args:
-        token: API Token
+        user_id: Which user
+        api_token: Optional default api_token
+    """
+    if api_token is None:
+        # TODO: Add way to generate new api_token
+        raise NotImplementedError()
+
+    queries.update_api_token(user_id, api_token)
+
+
+def verify_api_token(api_token: str) -> Optional[uuid.UUID]:
+    """
+    Verify an api_token. Returns None if api_token is invalid.
 
     Returns:
-        valid_token
+        user_id
     """
-    if config.DEFAULT_USER:
-        return token == "default"
+    return queries.verify_api_token(api_token)
 
-    # TODO: Add API token verification via database
-    raise NotImplementedError()
+
+def verify_user_token(user_token: str) -> Optional[uuid.UUID]:
+    """
+    Verify user token (Auth0 or "default").
+
+    Args:
+        user_token: User's token
+
+    Returns:
+        user_id
+    """
+    email: Optional[str] = None
+
+    if config.DEFAULT_USER and user_token == "default":
+        email = user_token
+
+    # TODO: Add Auth0 email verification
+
+    assert email is not None
+
+    return queries.get_user_id(email)
