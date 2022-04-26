@@ -44,7 +44,7 @@ pip install mocha-time
 ```
 
 ```bash
-docker run -p 9000:9000 -v mocha.db:mocha.db mocha-dev/mocha
+docker run -p 9000:9000 mochadev/mocha
 ```
 
 ## Demo
