@@ -1,6 +1,8 @@
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import HTTPBasicCredentials, HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse, HTMLResponse
 from pydantic import BaseModel
 from commons.logging import exception_handler, logger
 from logic import auth, data
@@ -42,9 +44,9 @@ class DataResponse(BaseModel):
     data: Dict[str, data.Data]
 
 
-@app.post("/")
+@app.post("/v1/commit")
 @exception_handler()
-def post_event(event: EventBody, credentials: HTTPBasicCredentials = Depends(security)) -> None:
+def post_commit(event: EventBody, credentials: HTTPBasicCredentials = Depends(security)) -> None:
     """
     Receive profiler event from client.
 
@@ -74,7 +76,7 @@ def post_event(event: EventBody, credentials: HTTPBasicCredentials = Depends(sec
     return "OK"
 
 
-@app.get("/data")
+@app.get("/v1/data")
 @exception_handler()
 def get_data(
     start: float,
@@ -102,6 +104,16 @@ def get_data(
     data_ = data.retrieve_data(user_id, start, end)
 
     return DataResponse(data=data_)
+
+
+# Serve Frontend
+@app.get("/")
+async def redirect_webapp():
+    return RedirectResponse("/index.html")
+
+
+app.mount("/", StaticFiles(directory="frontend"), name="frontend")
+
 
 
 @app.on_event("startup")

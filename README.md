@@ -9,9 +9,17 @@
 <b>~ It's About Time ~</b>
 </p>
 
-Mocha is a Python performance profiler that can monitor your entire deployment in production, and makes results easy to aggregate and search through.
+Mocha is a performance profiler that can monitor the performance of your production Python, and makes results easy to aggregate and search through.
 
-Bad code performance is often a result of lack of visibility, with [real world consequences](https://uxplanet.org/how-page-speed-affects-web-user-experience-83b6d6b1d7d7). Mocha can help you monitor performance over time.
+Mocha is designed for **Purposeful Profiling**. This means that you only use Mocha around code of interest, instead of dumping all code performance logs and mining it later.
+
+Useful for Profiling:
+
+- 🌎 API performance
+- 🚀 CI/CD stage / granular performance
+- 💡 ML training & inference jobs
+- 📀 Database queries
+- 📊 Data pipelines / compute jobs
 
 <br>
 <p align="center">
@@ -19,13 +27,13 @@ Bad code performance is often a result of lack of visibility, with [real world c
 </p>
 <br>
 
-Useful for Profiling:
+<p align="center">
+<img src="https://raw.githubusercontent.com/mocha-dev/mocha/main/assets/continuous_profiling.png" alt="Mocha logo: Mocha is the Python Performance Profiler for Production" width="600px">
+</p>
 
-- 🌎 API performance
-- 🚀 CI/CD granular performance
-- 💡 ML training & inference
-- 📀 Database queries
-- 📊 Data pipelines / compute jobs
+![Dashboard](https://raw.githubusercontent.com/mocha-dev/mocha/main/assets/dashboard.png)
+
+Bad performance has [real world consequences](https://uxplanet.org/how-page-speed-affects-web-user-experience-83b6d6b1d7d7), and is often a result of **lack of visibility**, *even if you are logging it, if it's not be easy to get to, it will be ignored*.
 
 <br>
 
@@ -35,44 +43,36 @@ Useful for Profiling:
 pip install mocha-time
 ```
 
-## Start / Stop
+```bash
+docker run -p 9000:9000 -v mocha.db:mocha.db mocha-dev/mocha
+```
+
+## Demo
 
 ```python
 import mocha
 
 mocha.init(url="http://localhost:9000")
 
-p = mocha.start("ML Training")
+mocha.demo()
+```
 
-import time
-time.sleep(10)
+## Usage
+
+```python
+# Start / Stop
+p = mocha.start("Foobar")
+
+pass
 
 p.stop()
-```
 
-## Profiler
+# Profiler
+with mocha.Profiler("Foobar"):
+    pass
 
-```python
-import mocha
-
-mocha.init(url="http://localhost:9000")
-
-with mocha.Profiler("ML Training"):
-
-    import time
-    time.sleep(10)
-```
-
-## Decorator
-
-```python
-import mocha
-
-mocha.init(url="http://localhost:9000")
-
-@mocha.profiler("ML Training")
+# Function Decorator
+@mocha.profiler("Foobar")
 def ml_training():
-
-    import time
-    time.sleep(10)
+    pass
 ```
