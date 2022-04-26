@@ -62,9 +62,7 @@ mocha.demo()
 ```python
 # 1. Start / Stop
 p = mocha.start("Foobar")
-
 pass
-
 p.stop()
 
 # 2. Profiler
