@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="mocha-time",
-    version="0.0.9",
+    version="0.0.10",
     author="Jared Zhao",
     description="Python Performance Profiling for Production",
     long_description=open("README.md").read(),
