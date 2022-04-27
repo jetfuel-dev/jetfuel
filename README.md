@@ -57,18 +57,25 @@ jetfuel.demo()
 
 ## Usage
 
-```python
-# 1. Start / Stop
-p = jetfuel.start("Foobar")
-pass
-p.stop()
+1. Start / Stop
 
-# 2. Profiler
-with jetfuel.Profiler("Foobar"):
+    ```python
+    p = jetfuel.start("Foobar")
     pass
+    p.stop()
+    ```
 
-# 3. Function Decorator
-@jetfuel.profiler("Foobar")
-def ml_training():
-    pass
-```
+2. Profiler
+
+    ```python
+    with jetfuel.Profiler("Foobar"):
+        pass
+    ```
+
+3. Function Decorator
+
+    ```python
+    @jetfuel.profiler("Foobar")
+    def ml_training():
+        pass
+    ```

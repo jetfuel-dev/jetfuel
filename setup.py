@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="jetfuel",
-    version="0.0.12",
+    version="0.0.13",
     author="Jared Zhao",
     description="Python Performance Profiling for Production",
     long_description=open("README.md").read(),
