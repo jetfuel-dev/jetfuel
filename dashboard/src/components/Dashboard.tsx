@@ -15,7 +15,9 @@ function Dashboard(props: Props) {
   const [data, setData] = useState<{[name: string]: Data}>();
   
   const getData = () => {
-    getDataAPI(Date.now() / 1000 - (60 * 60)).then((data) => {
+    // TODO: Retrieve all data for now, until we implement selector
+    // e.g. Something like: Date.now() / 1000 - (60 * 60)
+    getDataAPI(0).then((data) => {
       setData(data.data);
     });
   }
