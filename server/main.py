@@ -127,10 +127,14 @@ def startup() -> None:
     if config.DEFAULT_USER:
         try:
             user_id = auth.create_user(email="default")
-            auth.generate_api_token(user_id=user_id, api_token="default")
         except:
             # Default user already exists
             pass
+        finally:
+            # Update default token (in case it changed)
+            user_id = auth.get_user_id(email="default")
+            auth.generate_api_token(user_id=user_id, api_token=config.DEFAULT_API_KEY)
+
 
     logger.info("")
     logger.info("READY")

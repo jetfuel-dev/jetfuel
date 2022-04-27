@@ -14,6 +14,15 @@ def create_user(email: str) -> uuid.UUID:
     return user_id
 
 
+def get_user_id(email: str) -> uuid.UUID:
+    """
+    Get a user.
+    """
+    user_id = queries.get_user_id(email=email)
+
+    return user_id
+
+
 def generate_api_token(user_id: uuid.UUID, api_token: Optional[str] = None) -> None:
     """
     Generate a api_token for a user.
