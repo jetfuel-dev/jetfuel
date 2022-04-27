@@ -35,6 +35,10 @@ Bad performance has [real world consequences](https://uxplanet.org/how-page-spee
 
 <br>
 
+## How does it work?
+
+Jetfuel is very simple. The client simply times sections of your code, and batches / aggregates them before committing to the Jetfuel server. Updates are aggregated based on a configurable resolution (default 5s). This batching / aggregating behavior allows us to time ms/ns code without introducing much overhead.
+
 ## Installation
 
 ```bash
