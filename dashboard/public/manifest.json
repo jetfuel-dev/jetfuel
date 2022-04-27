@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Jetfuel",
+  "name": "Jetfuel - Python Performance Profiling for Production",
   "icons": [
     {
       "src": "favicon.ico",
