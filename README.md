@@ -38,7 +38,7 @@ Bad performance has [real world consequences](https://uxplanet.org/how-page-spee
 ## Installation
 
 ```bash
-pip install jetfuel-time
+pip install jetfuel
 ```
 
 ```bash
