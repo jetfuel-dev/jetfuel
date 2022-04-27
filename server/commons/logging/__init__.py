@@ -11,9 +11,9 @@ from coloredlogs import ColoredFormatter
 logger: logging.Logger = logging.getLogger(__name__)
 logger.setLevel("INFO")
 
-if not os.path.exists("/var/log/mocha"):
-    os.makedirs("/var/log/mocha")
-log_file = os.path.join(os.path.abspath(os.sep), "/var/log/mocha/root.log")
+if not os.path.exists("/var/log/jetfuel"):
+    os.makedirs("/var/log/jetfuel")
+log_file = os.path.join(os.path.abspath(os.sep), "/var/log/jetfuel/root.log")
 
 level_colors = {
     "debug": {"color": "green"},

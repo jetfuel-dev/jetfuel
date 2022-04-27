@@ -1,4 +1,4 @@
-import os.path
+import os
 import time
 from typing import Any, List, Optional, Tuple
 
@@ -36,8 +36,12 @@ def _upgrade_schema(version: int) -> None:
         )
 
 
+path = os.path.join(config.PROJECT_ROOT, "data")
+if not os.path.exists(path):
+    os.makedirs(path)
+
 def _open_connection() -> sqlite3.Connection:
-    return sqlite3.connect("mocha.db")
+    return sqlite3.connect(os.path.join(path, "jetfuel.db"))
 
 
 def execute_script(statement: str) -> None:

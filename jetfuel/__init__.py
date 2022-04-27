@@ -1,5 +1,5 @@
 """
- Calculate stats (min, max, mean, count), then fire event to Mocha-Server
+ Calculate stats (min, max, mean, count), then fire event to Jetfuel-Server
                                     ^
                                     |
            Event Cache (stores raw performance profiling events)

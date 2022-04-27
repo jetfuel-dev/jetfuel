@@ -14,10 +14,10 @@ _commit_lock = Lock()
 
 def init(url: str, token: str = "default", resolution: float = 5.0) -> None:
     """
-    Initialize Mocha.
+    Initialize Jetfuel.
 
     Args:
-        url: URL of mocha-server
+        url: URL of jetfuel-server
         token: Login token
         resolution: Data collection resolution
     """
