@@ -1,6 +1,6 @@
 def demo() -> None:
     """
-    Run demo. Mocha must be initialized first.
+    Run demo. Jetfuel must be initialized first.
     """
     from .profiler import Profiler
     from concurrent.futures import ThreadPoolExecutor

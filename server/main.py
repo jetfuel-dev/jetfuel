@@ -119,8 +119,8 @@ app.mount("/", StaticFiles(directory="frontend"), name="frontend")
 @app.on_event("startup")
 def startup() -> None:
     logger.info("")
-    logger.info("Mocha Server")
-    logger.info("------------")
+    logger.info("Jetfuel Server")
+    logger.info("--------------")
     logger.info("")
 
     # Add Default User

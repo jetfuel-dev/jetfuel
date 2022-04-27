@@ -9,7 +9,7 @@ class Cache:
 
         Args:
             name: Profiler name
-            url: URL of Mocha-Server
+            url: URL of Jetfuel-Server
             token: Auth token to use
         """
         self.name = name

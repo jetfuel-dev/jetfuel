@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@mui/styles";
 import { Typography } from '@mui/material';
 import NavBar from "../components/NavBar";
 import Dashboard from "../components/Dashboard";
-import logo from '../assets/mocha.svg';
+import logo from '../assets/jetfuel.png';
 
 
 const useStyles = makeStyles(() =>
