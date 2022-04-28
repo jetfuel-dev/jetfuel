@@ -28,7 +28,7 @@ def init(url: str, token: str = "default", resolution: float = 5.0) -> None:
     _resolution = resolution
 
     # Start data sending thread
-    t = Thread(target=_commit)
+    t = Thread(target=_commit, daemon=True)
     t.start()
 
 
